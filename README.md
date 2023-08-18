@@ -13,4 +13,4 @@ IP 158.160.75.21
 
 Frontend https://server.nomoreparties.co
 
-Backend https://api.server.students.nomoreparties.co
+Backend https://api.server.nomoreparties.co
