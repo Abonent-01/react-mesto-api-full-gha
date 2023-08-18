@@ -89,7 +89,6 @@ module.exports.login = (req, res, next) => {
             const jwt = jsonWebToken.sign({ _id: user._id }, 'SECRET');
             res.cookie('jwt', jwt, {
               maxAge: 36000000,
-              httpOnly: true,
               sameSite: true,
             })
             res.send(user)
