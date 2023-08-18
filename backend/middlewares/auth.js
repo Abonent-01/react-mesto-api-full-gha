@@ -1,24 +1,26 @@
 const jwt = require('jsonwebtoken');
 const ERROR_CODE_AUTH = require('../error/authError');
 
-
 const auth = (req, res, next) => {
-  const { authorization } = req.headers;
-  if (!authorization) {
-    next(new ERROR_CODE_AUTH('Error auth'));
-    return;
+  const token = jwt.sign(
+    { _id: user._id },
+    NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret'
+  );
+
+  if (!token) {
+    return next(new ERROR_CODE_AUTH('Error...'));
   }
 
-  const token = authorization.replace('Bearer ', '');
   let payload;
+
   try {
-    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret')
+    payload = jwt.verify(token, 'SECRET');
   } catch (err) {
-    next(new ERROR_CODE_AUTH('Error auth'));
-    return;
+    return next(new ERROR_CODE_AUTH('Error...'));
   }
+
   req.user = payload;
   next();
-}
+};
 
 module.exports = auth;
