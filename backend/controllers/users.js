@@ -81,7 +81,7 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   User.findOne({ email })
     .select('+password')
-    .orFail(() => new ERROR_CODE_AUTH('Error...'))
+    .orFail(() => new ERROR_CODE_AUTH('Error...Auth'))
     .then((user) => {
       bcrypt.compare(password, user.password)
         .then((isValidUser) => {
@@ -93,7 +93,7 @@ module.exports.login = (req, res, next) => {
             })
             res.send(user)
           } else {
-            throw new ERROR_CODE_AUTH('Error...');
+            throw new ERROR_CODE_AUTH('Error...Auth');
           }
         })
         .catch(next);
