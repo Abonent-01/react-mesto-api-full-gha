@@ -97,18 +97,18 @@ function App() {
   */
 
     useEffect(() => {
-      if (localStorage.getItem('jwt')) {
-        const jwt = localStorage.getItem('jwt');
-        auth.getContent(jwt)
-          .then((res) => {
-            setLoggedIn(true);
-            setEmail(res.email);
-            navigate("/", { replace: true });
-          })
-          .catch(err => console.log(err));
-      }
-    }, [navigate]);
-  
+    if (localStorage.getItem('jwt')) {
+      const jwt = localStorage.getItem('jwt');
+      auth.getContent(jwt)
+        .then((res) => {
+          setLoggedIn(true);
+          setEmail(res.email);
+          navigate("/", { replace: true });
+        })
+        .catch(err => console.log(err));
+    }
+  }, [navigate]);
+
 
 
     function handleLogin(password, email) {
