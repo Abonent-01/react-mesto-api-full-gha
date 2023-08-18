@@ -5,11 +5,13 @@ const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const router = require('./routes/router');
 const errorHandler = require('./middlewares/errorHandler');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('cors')
 const { PORT = 3000 } = process.env; // Слушаем 3000 порт
 
 const app = express();
 app.use(express.json());
+app.use(requestLogger);
 app.use(cookieParser());
 
 app.use(cors({
