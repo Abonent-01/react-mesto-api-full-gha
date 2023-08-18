@@ -2,7 +2,10 @@ const jwt = require('jsonwebtoken');
 const ERROR_CODE_AUTH = require('../error/authError');
 
 const auth = (req, res, next) => {
-  const token = req.cookies.jwt;
+  const token = jwt.sign(
+    { _id: user._id },
+    NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret'
+  );
 
   if (!token) {
     return next(new ERROR_CODE_AUTH('Error...'));
