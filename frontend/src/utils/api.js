@@ -83,7 +83,7 @@ updateUserProfile({ name, about }) {
 const api = new Api({
   baseUrl: 'https://api.server.students.nomoreparties.co',
   headers: {
-    authorization: `Bearer ${localStorage.getItem('jwt')}`,
+    authorization: `Bearer ${localStorage.getItem('token')}`,
     'Content-Type': 'application/json'
   }
 });
