@@ -81,20 +81,15 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   User.findOne({ email })
     .select('+password')
-    .orFail(() => new ERROR_CODE_AUTH('Error...'))
+    .orFail(() => new ERROR_CODE_AUTH('Error auth'))
     .then((user) => {
       bcrypt.compare(password, user.password)
         .then((isValidUser) => {
           if (isValidUser) {
-            const jwt = jsonWebToken.sign({ _id: user._id }, 'SECRET');
-            res.cookie('jwt', jwt, {
-              maxAge: 36000000,
-              httpOnly: true,
-              sameSite: true,
-            })
-            res.send(user)
+            const jwt = jsonWebToken.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '36000000' });
+            res.status(200).send({ token: jwt });
           } else {
-            throw new ERROR_CODE_AUTH('Error...');
+            throw new ERROR_CODE_AUTH('Error auth');
           }
         })
         .catch(next);
