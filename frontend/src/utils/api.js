@@ -83,7 +83,7 @@ updateUserProfile({ name, about }) {
 const api = new Api({
   baseUrl: 'https://api.server.students.nomoreparties.co',
   headers: {
-    /*authorization: '502445fb-b5c0-4bb8-954f-20c41125ff94',*/
+    authorization: `Bearer ${localStorage.getItem('jwt')}`,
     'Content-Type': 'application/json'
   }
 });
