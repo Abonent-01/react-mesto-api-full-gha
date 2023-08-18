@@ -13,6 +13,7 @@ export const register = (password, email) => {
     headers: {
       "Content-Type": "application/json"
     },
+    credentials: 'include',
     body: JSON.stringify({password, email})
   })
   .then((res) => checkResponse(res));
