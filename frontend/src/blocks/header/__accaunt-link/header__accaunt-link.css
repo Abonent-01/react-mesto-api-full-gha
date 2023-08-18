@@ -1,0 +1,15 @@
+.header__accaunt-link {
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-decoration: none;
+    transition: opacity 0.5s ease;
+}
+
+.header__accaunt-link:hover {
+  opacity: 0.6;
+}
