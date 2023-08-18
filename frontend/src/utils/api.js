@@ -81,11 +81,6 @@ updateUserProfile({ name, about }) {
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-65',
-  headers: {
-    authorization: '502445fb-b5c0-4bb8-954f-20c41125ff94',
-    'Content-Type': 'application/json'
-  }
-});
+  baseUrl: 'https://api.server.nomoreparties.co',});
 
 export default api;
