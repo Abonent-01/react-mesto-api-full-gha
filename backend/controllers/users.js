@@ -86,8 +86,12 @@ module.exports.login = (req, res, next) => {
       bcrypt.compare(password, user.password)
         .then((isValidUser) => {
           if (isValidUser) {
-            const jwt = jsonWebToken.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
-            res.status(200).send({ token: jwt });
+            const jwt = jsonWebToken.sign({ _id: user._id }, 'SECRET');
+            res.cookie('jwt', jwt, {
+              maxAge: 36000000,
+              sameSite: true,
+            })
+            res.send(user)
           } else {
             throw new ERROR_CODE_AUTH('Error...Auth');
           }
