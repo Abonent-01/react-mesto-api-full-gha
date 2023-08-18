@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 158.160.75.21
+IP 158.160.75.21
 
 Frontend https://server.nomoreparties.co
 

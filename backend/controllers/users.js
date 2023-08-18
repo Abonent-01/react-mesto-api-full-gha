@@ -1,13 +1,11 @@
 const bcrypt = require('bcryptjs');
 const jsonWebToken = require('jsonwebtoken');
 const User = require('../models/user');
-const jwt = require('jsonwebtoken');
+
 const ERROR_CODE_DUPLICATE = require('../error/duplicateError');
 const ERROR_CODE_AUTH = require('../error/authError');
 const ERROR_CODE_NOT_FOUND = require('../error/notFoundError')
-require('dotenv').config();
 
-const { JWT_SECRET = 'JWT_SECRET' } = process.env;
 module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send(users))
@@ -81,21 +79,28 @@ module.exports.updateUserAvatar = (req, res) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  User.findUserByCredentials(email, password)
+  User.findOne({ email })
+    .select('+password')
+    .orFail(() => new ERROR_CODE_AUTH('Error...'))
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
-        expiresIn: '7d',
-      });
-      res.cookie('jwt', token, {
-        maxAge: 3600000,
-        httpOnly: true,
-        secure: true,
-        sameSite: 'None'
-      });
-      res.send({ token });
+      bcrypt.compare(password, user.password)
+        .then((isValidUser) => {
+          if (isValidUser) {
+            const jwt = jsonWebToken.sign({ _id: user._id }, 'SECRET');
+            res.cookie('jwt', jwt, {
+              maxAge: 36000000,
+              httpOnly: true,
+              sameSite: true,
+            })
+            res.send(user)
+          } else {
+            throw new ERROR_CODE_AUTH('Error...');
+          }
+        })
+        .catch(next);
     })
     .catch(next);
-};
+}
 
 module.exports.getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
