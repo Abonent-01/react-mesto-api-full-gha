@@ -78,18 +78,22 @@ function App() {
       setIsInfoTooltipPopupOpen(true);
     }
   
-    useEffect(() => {
-      if (localStorage.getItem('jwt')) {
-        const jwt = localStorage.getItem('jwt');
+    function checkToken() {
+      const jwt = localStorage.getItem('jwt');
+      if (jwt) {
         auth.getContent(jwt)
           .then((res) => {
             setLoggedIn(true);
-            setEmail(res.email);
-            navigate("/", { replace: true });
+            setEmail(res.data.email);
+            navigate("/");
           })
           .catch(err => console.log(err));
       }
-    }, [navigate]);
+    }
+  
+    useEffect(() => {
+      checkToken();
+    }, []);
   
     function handleLogin(password, email) {
       auth.authorize(password, email)
