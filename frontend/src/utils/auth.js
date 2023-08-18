@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.server.nomoreparties.co"
+export const BASE_URL = "https://api.server.students.nomoreparties.co"
 
 function checkResponse(res) {
   if(res.ok) {
