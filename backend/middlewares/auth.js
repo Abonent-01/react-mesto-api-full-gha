@@ -5,7 +5,7 @@ const auth = (req, res, next) => {
   const token = req.cookies.jwt;
 
   if (!token) {
-    return next(new ERROR_CODE_AUTH('Error...'));
+    return next(new ERROR_CODE_AUTH('ErrorAuth'));
   }
 
   let payload;
@@ -13,7 +13,7 @@ const auth = (req, res, next) => {
   try {
     payload = jwt.verify(token, 'SECRET');
   } catch (err) {
-    return next(new ERROR_CODE_AUTH('Error...'));
+    return next(new ERROR_CODE_AUTH('ErrorAuth'));
   }
 
   req.user = payload;
