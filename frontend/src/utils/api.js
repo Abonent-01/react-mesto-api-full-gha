@@ -107,6 +107,6 @@ updateUserProfile({ name, about }) {
 }
 
 const api = new Api({
-  baseUrl: 'https://api.server.students.nomoreparties.co/',});
+  baseUrl: 'https://api.server.students.nomoreparties.co',});
 
 export default api;
