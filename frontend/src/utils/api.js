@@ -1,5 +1,5 @@
 class Api {
-  constructor({ baseUrl}) {
+  constructor({ baseUrl }) {
       this._baseUrl = baseUrl;
   }
 
@@ -20,16 +20,17 @@ getUserInfo() {
     }).then(this._checkStatus);
   }
 
-updateUserProfile({ name, about }) {
+updateUserProfile(data) {
     return fetch(`${this._baseUrl}users/me`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
+      credentials: this._credentails,
       body: JSON.stringify({
-        name: name,
-        about: about,
+        name: data.name,
+        about: data.about,
       }),
     }).then(this._checkStatus);
   }
