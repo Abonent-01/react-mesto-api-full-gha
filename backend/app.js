@@ -7,7 +7,7 @@ const router = require('./routes/router');
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('cors')
-const { PORT = 3000 } = process.env; // Слушаем 3000 порт
+const { PORT = 3000, DATA_BASE = 'mongodb://127.0.0.1:27017/mestodb' } = process.env; // Слушаем 3000 порт
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
+mongoose.connect(DATA_BASE);
 
 app.get('/crash-test', () => {
   setTimeout(() => {

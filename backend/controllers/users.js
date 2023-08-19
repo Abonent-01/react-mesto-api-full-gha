@@ -5,7 +5,7 @@ const ERROR_CODE_DUPLICATE = require('../error/duplicateError');
 const ERROR_CODE_AUTH = require('../error/authError');
 const ERROR_CODE_NOT_FOUND = require('../error/notFoundError');
 const { ERROR_CODE_WRONG_DATA } = require('../error/error');
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { JWT_SECRET, NODE_ENV  } = process.env;
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
