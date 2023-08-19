@@ -25,30 +25,23 @@ module.exports.createCard = (req, res, next) => {
 }
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.findById(req.params.cardId)
-    .orFail(() => new ERROR_CODE_NOT_FOUND(`Not found`))
+  Card.findByIdAndUpdate(req.params.cardId, { $pull: { likes: req.user._id } }, { new: true })
     .then((card) => {
-      if (card.owner.toString() === req.user._id) {
-        Card.deleteOne(card)
-          .then(() => res.send({ data: card }))
-          .catch(next)
+      if (!card) {
+        throw new ErrorNotFound(`Not Found Card`)
       } else {
-        throw new ERROR_CODE_FORBIDDEN('Prohibited')
+        next(res.send(card));
       }
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.name === "CastError") {
+        next(new ERROR_CODE_FORBIDDEN(`Wrong Data`));
+      } else {
+        next(err);
+      }
+    })
 };
 
-  Card.findById(req.params.cardId)
-    .then((card) => {
-      if (!card) next(new ERROR_CODE_NOT_FOUND(`Error...`));
-      if (req.user._id === card.owner.toString()) {
-        return removeCard();
-      }
-      return next(new ERROR_CODE_FORBIDDEN('Error...'));
-    })
-    .catch(next);
-};
 
 module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: req.user._id } }, { new: true })
