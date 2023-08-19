@@ -3,7 +3,8 @@ const jsonWebToken = require('jsonwebtoken');
 const User = require('../models/user');
 const ERROR_CODE_DUPLICATE = require('../error/duplicateError');
 const ERROR_CODE_AUTH = require('../error/authError');
-const ERROR_CODE_NOT_FOUND = require('../error/notFoundError')
+const ERROR_CODE_NOT_FOUND = require('../error/notFoundError');
+const { ERROR_CODE_WRONG_DATA } = require('../error/error');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res, next) => {
@@ -31,22 +32,22 @@ module.exports.getUser = (req, res, next) => {
     });
 };
 
-module.exports.createUser = async (req, res, next) => {
-  try {
-    const { name, about, avatar, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, about, avatar, email, password: hashedPassword });
-    res.send(user.toJSON());
-  } catch (err) {
-    if (err.name === "ValidationError") {
-      next(new ERROR_CODE_WRONG_DATA('Invalid user data'));
-    } else if (err.code === 11000) {
-      next(new ERROR_CODE_DUPLICATE('User already exists'));
-    } else {
-      next(err);
-    }
-  }
-};
+module.exports.createUser = (req, res, next) => {
+  const { name, about, avatar, email, password } = req.body;
+  bcrypt.hash(password, 10)
+    .then((hashedPassword) => User.create({ name, about, avatar, email, password: hashedPassword }))
+    .then((user) => res.send(user.toJSON()))
+    .catch((err) => {
+      if (err.name === "ValidationError") {
+        next(new ERROR_CODE_WRONG_DATA(`Переданные данные некорректны`));
+      } else if (err.code === 11000) {
+        next(new ERROR_CODE_DUPLICATE(`Такой e-mail уже зарегистрирован`));
+      } else {
+        next(err);
+      }
+    });
+}
+
 
 module.exports.updateUserProfile = (req, res, next) => {
   const { name, about } = req.body;
