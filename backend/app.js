@@ -9,15 +9,15 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('cors')
 const { PORT = 3000 } = process.env; // Слушаем 3000 порт
 
-const app = express();
-app.use(express.json());
-app.use(requestLogger);
-app.use(cookieParser());
-
 app.use(cors({
   origin: ['http://localhost:3000', 'http://localhost:3001', 'https://server.nomoreparties.co', 'http://server.nomoreparties.co', 'https://api.server.students.nomoreparties.co', 'http://api.server.students.nomoreparties.co'],
   credentials: true,
 }));
+
+const app = express();
+app.use(express.json());
+app.use(requestLogger);
+app.use(cookieParser());
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 
