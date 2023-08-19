@@ -109,7 +109,7 @@ function App() {
     function handleRegistration(password, email) {
       auth.register({password, email})
         .then(() => {
-          navigate("/sign_in", { replace: true });
+          navigate("/signin", { replace: true });
           onRegister();
         })
         .catch(err => {
