@@ -25,11 +25,19 @@ module.exports.createCard = (req, res, next) => {
 }
 
 module.exports.deleteCard = (req, res, next) => {
-  const removeCard = () => {
-    Card.findByIdAndRemove(req.params.cardId)
-      .then((card) => res.send(card))
-      .catch(next);
-  };
+  Card.findById(req.params.cardId)
+    .orFail(() => new ERROR_CODE_NOT_FOUND(`Not found`))
+    .then((card) => {
+      if (card.owner.toString() === req.user._id) {
+        Card.deleteOne(card)
+          .then(() => res.send({ data: card }))
+          .catch(next)
+      } else {
+        throw new ERROR_CODE_FORBIDDEN('Prohibited')
+      }
+    })
+    .catch(next);
+};
 
   Card.findById(req.params.cardId)
     .then((card) => {
