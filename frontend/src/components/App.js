@@ -103,7 +103,7 @@ function App() {
         .then((res) => {
           setLoggedIn(true);
           setEmail(res.email);
-          navigate("/", { replace: true });
+          navigate("/");
         })
         .catch(err => console.log(err));
     }

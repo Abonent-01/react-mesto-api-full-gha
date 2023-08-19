@@ -15,7 +15,7 @@ app.use(requestLogger);
 app.use(cookieParser());
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://server.nomoreparties.co', 'http://server.nomoreparties.co', 'https://api.server.nomoreparties.co', 'http://api.server.nomoreparties.co'],
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://server.nomoreparties.co', 'http://server.nomoreparties.co', 'https://api.server.students.nomoreparties.co', 'http://api.server.students.nomoreparties.co'],
   credentials: true,
 }));
 
