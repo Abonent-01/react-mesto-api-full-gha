@@ -77,24 +77,6 @@ function App() {
       setTooltipIcon("error");
       setIsInfoTooltipPopupOpen(true);
     }
-  
-   /* function checkToken() {
-      const jwt = localStorage.getItem('jwt');
-      if (jwt) {
-        auth.getContent(jwt)
-          .then((res) => {
-            setLoggedIn(true);
-            setEmail(res.data.email);
-            navigate("/");
-          })
-          .catch(err => console.log(err));
-      }
-    }
-  
-    useEffect(() => {
-      checkToken();
-    }, []);
-  */
 
     useEffect(() => {
     if (localStorage.getItem('jwt')) {
@@ -103,7 +85,7 @@ function App() {
         .then((res) => {
           setLoggedIn(true);
           setEmail(res.email);
-          navigate("/");
+          navigate("/", { replace: true });
         })
         .catch(err => console.log(err));
     }
@@ -116,7 +98,7 @@ function App() {
         .then(res => {
           localStorage.setItem('jwt', res.token)
           setLoggedIn(true);
-          navigate("/")
+          navigate("/", { replace: true })
         })
         .catch(err => {
           handleError();
@@ -127,7 +109,7 @@ function App() {
     function handleRegistration(password, email) {
       auth.register(password, email)
         .then(() => {
-          navigate("/signin");
+          navigate("/signin", { replace: true });
           onRegister();
         })
         .catch(err => {
