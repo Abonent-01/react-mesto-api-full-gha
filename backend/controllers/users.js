@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jsonWebToken = require('jsonwebtoken');
 const User = require('../models/user');
-const { NODE_ENV, JWT_SECRET } = process.env;
+
 const ERROR_CODE_DUPLICATE = require('../error/duplicateError');
 const ERROR_CODE_AUTH = require('../error/authError');
 const ERROR_CODE_NOT_FOUND = require('../error/notFoundError')
@@ -81,15 +81,20 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   User.findOne({ email })
     .select('+password')
-    .orFail(() => new ERROR_CODE_AUTH('WrongUser'))
+    .orFail(() => new ERROR_CODE_AUTH('ErrorAUth'))
     .then((user) => {
       bcrypt.compare(password, user.password)
         .then((isValidUser) => {
           if (isValidUser) {
-            const jwt = jsonWebToken.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
-            res.status(200).send({ token: jwt });
+            const jwt = jsonWebToken.sign({ _id: user._id }, 'SECRET');
+            res.cookie('jwt', jwt, {
+              maxAge: 36000000,
+              httpOnly: true,
+              sameSite: true,
+            })
+            res.send(user)
           } else {
-            throw new ERROR_CODE_AUTH('WrongPassword');
+            throw new ERROR_CODE_AUTH('ErrorAuth');
           }
         })
         .catch(next);
