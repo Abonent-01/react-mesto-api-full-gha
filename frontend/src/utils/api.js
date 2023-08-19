@@ -11,7 +11,7 @@ class Api {
   }  
 
 getUserInfo() {
-    return fetch(`${this._baseUrl}/users/me`, {
+    return fetch(`${this._baseUrl}users/me`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -21,7 +21,7 @@ getUserInfo() {
   }
 
 updateUserProfile(data) {
-    return fetch(`${this._baseUrl}/users/me`, {
+    return fetch(`${this._baseUrl}users/me`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +36,7 @@ updateUserProfile(data) {
   }
 
   updateUserAvatar(data) {
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
+    return fetch(`${this._baseUrl}users/me/avatar`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,7 @@ updateUserProfile(data) {
 
 
     getInitialCards() {
-      return fetch(`${this._baseUrl}/cards`, {
+      return fetch(`${this._baseUrl}cards`, {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +61,7 @@ updateUserProfile(data) {
     }
 
     postCard(data) {
-      return fetch(`${this._baseUrl}/cards`, {
+      return fetch(`${this._baseUrl}cards`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,7 +75,7 @@ updateUserProfile(data) {
     }
 
     deleteCard(id) {
-      return fetch(`${this._baseUrl}/cards/${id}`, {
+      return fetch(`${this._baseUrl}cards/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -108,6 +108,6 @@ updateUserProfile(data) {
 }
 
 const api = new Api({
-  baseUrl: 'https://api.server.students.nomoreparties.co'});
+  baseUrl: 'https://api.server.students.nomoreparties.co/',});
 
 export default api;

@@ -85,7 +85,7 @@ function App() {
         .then((res) => {
           setLoggedIn(true);
           setEmail(res.email);
-          navigate("/");
+          navigate("/", { replace: true });
         })
         .catch(err => console.log(err));
     }
@@ -98,7 +98,7 @@ function App() {
         .then(res => {
           localStorage.setItem('jwt', res.token)
           setLoggedIn(true);
-          navigate("/")
+          navigate("/", { replace: true })
         })
         .catch(err => {
           handleError();
@@ -109,7 +109,7 @@ function App() {
     function handleRegistration(password, email) {
       auth.register({password, email})
         .then(() => {
-          navigate("/sign-in");
+          navigate("/signin", { replace: true });
           onRegister();
         })
         .catch(err => {
