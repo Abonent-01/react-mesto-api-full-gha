@@ -94,7 +94,7 @@ function App() {
 
 
     function handleLogin(password, email) {
-      auth.authorize(password, email)
+      auth.authorize({password, email})
         .then(res => {
           localStorage.setItem('jwt', res.token)
           setLoggedIn(true);
@@ -107,7 +107,7 @@ function App() {
     }
   
     function handleRegistration(password, email) {
-      auth.register(password, email)
+      auth.register({password, email})
         .then(() => {
           navigate("/signin", { replace: true });
           onRegister();
