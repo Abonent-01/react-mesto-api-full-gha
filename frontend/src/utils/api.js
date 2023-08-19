@@ -17,7 +17,7 @@ getUserInfo() {
         "Content-Type": "application/json",
         authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
-    }).then(this._checkStatus);
+    }).then(res => this._checkStatus(res));
   }
 
 updateUserProfile(data) {
@@ -32,7 +32,7 @@ updateUserProfile(data) {
         name: data.name,
         about: data.about,
       }),
-    }).then(this._checkStatus);
+    }).then(res => this._checkStatus(res));
   }
 
   updateUserAvatar(data) {
@@ -46,7 +46,7 @@ updateUserProfile(data) {
         avatar: data.avatar,
       }),
   
-    }).then(this._checkStatus);
+    }).then(res => this._checkStatus(res));
   }
 
 
@@ -57,7 +57,7 @@ updateUserProfile(data) {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem('jwt')}`
         },
-      }).then(this._checkStatus);
+      }).then(res => this._checkStatus(res));
     }
 
     postCard(data) {
@@ -71,7 +71,7 @@ updateUserProfile(data) {
           name: data.name,
           link: data.link,
         }),
-      }).then(this._checkStatus);
+      }).then(res => this._checkStatus(res));
     }
 
     deleteCard(id) {
@@ -81,7 +81,7 @@ updateUserProfile(data) {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem('jwt')}`
         },
-      }).then(this._checkStatus);
+      }).then(res => this._checkStatus(res));
     }
 
     likeCard(cardId, isLiked) {
@@ -93,7 +93,7 @@ updateUserProfile(data) {
             authorization: `Bearer ${localStorage.getItem('jwt')}`
           },
         })
-          .then(this._checkStatus);
+          .then(res => this._checkStatus(res));
       } else {
         return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
           method: 'PUT',
@@ -102,7 +102,7 @@ updateUserProfile(data) {
             authorization: `Bearer ${localStorage.getItem('jwt')}`
           },
         })
-          .then(this._checkStatus);
+          .then(res => this._checkStatus(res));
       }
     }
 }
