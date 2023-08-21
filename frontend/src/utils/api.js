@@ -27,7 +27,7 @@ updateUserProfile(data) {
         "Content-Type": "application/json",
         authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
-      credentials: this._credentails,
+      credentials: "include",
       body: JSON.stringify({
         name: data.name,
         about: data.about,
