@@ -6,6 +6,12 @@ function Login({ onLogin }) {
     email: "",
   })
 
+function handleSubmit(evt) {
+    evt.preventDefault();
+    const { email, password } = formValue;
+    onLogin(password, email);
+  }
+
   function handleChange(evt) {
     const {name, value} = evt.target;
     setFormValue({
@@ -14,12 +20,7 @@ function Login({ onLogin }) {
     })
   }
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    const { email, password } = formValue;
-    onLogin(password, email);
-  }
-
+  
   return (
     <div className="auth" >
       <h2 className="auth__title">Вход</h2>

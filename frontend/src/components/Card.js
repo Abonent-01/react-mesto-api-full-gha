@@ -6,8 +6,8 @@ function Card({card, onCardClick, onCardLike, onCardDelete}) {
   const handleLikeClick = () => onCardLike(card);
   const handleDeleteClick = () => onCardDelete(card);
   const currentUser = useContext(CurrentUserContext);
-  const isOwn = card.owner._id === currentUser._id;
-  const isLiked = card.likes.some((card) => card._id === currentUser._id);
+  const isOwn = card.owner === currentUser._id;
+  const isLiked = card.likes.some((card) => card === currentUser._id);
   const cardLikeButton = (`elements__like ${isLiked && 'elements__like_active'}`);
 
   return(

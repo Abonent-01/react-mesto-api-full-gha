@@ -36,7 +36,7 @@ function App() {
         Promise.all([api.getUserInfo(), api.getInitialCards()])
           .then(([user, card]) => {
             setCurrentUser(user);
-            setCards(card);
+            setCards(card.reverse());
           })
           .catch((err) => alert(err))
       }
@@ -77,28 +77,27 @@ function App() {
       setTooltipIcon("error");
       setIsInfoTooltipPopupOpen(true);
     }
-
+  
     useEffect(() => {
-    if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
-      auth.getContent(jwt)
-        .then((res) => {
-          setLoggedIn(true);
-          setEmail(res.email);
-          navigate("/");
-        })
-        .catch(err => console.log(err));
-    }
-  }, [navigate]);
-
-
-
+      if (localStorage.getItem('jwt')) {
+        const jwt = localStorage.getItem('jwt');
+        auth.getContent(jwt)
+          .then((res) => {
+            setLoggedIn(true);
+            setEmail(res.email);
+            navigate("/", { replace: true });
+          })
+          .catch(err => console.log(err));
+      }
+    }, [navigate]);
+  
+  
     function handleLogin(password, email) {
-      auth.authorize({password, email})
+      auth.authorize({ password, email })
         .then(res => {
           localStorage.setItem('jwt', res.token)
           setLoggedIn(true);
-          navigate("/")
+          navigate("/", { replace: true });
         })
         .catch(err => {
           handleError();
@@ -107,9 +106,9 @@ function App() {
     }
   
     function handleRegistration(password, email) {
-      auth.register({password, email})
+      auth.register({ password, email })
         .then(() => {
-          navigate("/signin");
+          navigate("/sign-in", { replace: true });
           onRegister();
         })
         .catch(err => {
@@ -124,7 +123,7 @@ function App() {
     }
 
     function handleCardLike(card) {
-      const isLiked = card.likes.some(i => i._id === currentUser._id);
+      const isLiked = card.likes.some(i => i === currentUser._id);
       api
         .likeCard(card._id, isLiked)
         .then((newCard) => {
